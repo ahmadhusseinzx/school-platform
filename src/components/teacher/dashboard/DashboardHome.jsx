@@ -1,3 +1,4 @@
+// src/components/teacher/dashboard/DashboardHome.jsx
 import React, { useState } from 'react';
 import StatsCards from './StatsCards';
 import DailySchedule from './DailySchedule';
@@ -36,10 +37,8 @@ export default function DashboardHome({ darkMode, setActiveMainTab }) {
 
   return (
     <div className="space-y-6">
-      {/* إحصائيات */}
       <StatsCards darkMode={darkMode} statsData={statsData} setActiveMainTab={setActiveMainTab} />
 
-      {/* الصف السفلي: الجدول والتنبيهات */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <DailySchedule darkMode={darkMode} schedule={dailySchedule} />

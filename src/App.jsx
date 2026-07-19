@@ -1,104 +1,183 @@
-import React, { useState, useEffect } from 'react';
-import { auth, db } from './services/firebase';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+// src/App.jsx
+
+import React, { useEffect, useState, useCallback } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { LogOut, RefreshCw, Home } from 'lucide-react';
+
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { ProtectedRoute } from './components/common';
+//import Login from './pages/Login';
+import Login from './components/auth/Login';
+import AdminDashboard from './components/admin/AdminDashboard';
 import TeacherDashboard from './pages/TeacherDashboard';
-import StudentDashboard from './pages/StudentDashboard'; // تم استيراد لوحة تحكم الطالب المتكاملة
-import Login from './pages/Login'; 
-import { RefreshCw, LogOut } from 'lucide-react';
+import StudentDashboard from './pages/StudentDashboard';
 
-export default function App() {
-  const [user, setUser] = useState(null);
-  const [userData, setUserData] = useState(null); 
-  const [loading, setLoading] = useState(true);
+// ============ ✅ مكون التوجيه حسب الدور (محسّن) ============
+const DashboardRouter = () => {
+  const { userData, loading, role, refreshUserData, isAuthenticated } = useAuth();
+  const location = useLocation();
+  
+  // ✅ استخدام key مستقر يعتمد على userData وليس على التاريخ
+  const dashboardKey = userData?.uid || 'default';
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        try {
-          const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-          if (userDoc.exists()) {
-            setUserData(userDoc.data()); // حفظ كامل البيانات (role, classId, fullName)
-          } else {
-            setUserData({ role: 'student', classId: null });
-          }
-        } catch (error) {
-          console.error("خطأ في جلب صلاحيات المستخدم:", error);
-          setUserData({ role: 'student', classId: null });
-        }
-      } else {
-        setUser(null);
-        setUserData(null);
-      }
-      setLoading(false);
-    });
+  console.log("🔍 DashboardRouter - role:", role);
+  console.log("🔍 DashboardRouter - userData:", userData);
+  console.log("🔍 DashboardRouter - loading:", loading);
+  console.log("🔍 DashboardRouter - location:", location.pathname);
 
-    return () => unsubscribe();
-  }, []);
+  // ✅ دالة لإعادة تحميل البيانات يدوياً
+  const handleManualRefresh = useCallback(async () => {
+    console.log("🔄 Manual refresh requested");
+    await refreshUserData();
+  }, [refreshUserData]);
 
-  const handleLogout = () => {
-    signOut(auth);
-  };
-
+  // ✅ عرض حالة التحميل
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center text-slate-100 font-sans">
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center">
         <RefreshCw className="w-8 h-8 text-blue-500 animate-spin mb-3" />
-        <p className="text-xs text-slate-400">جاري التحقق من الهوية والصلاحيات السحابية...</p>
+        <p className="text-xs text-slate-400">جاري تحميل البيانات...</p>
       </div>
     );
   }
 
-  // إذا لم يكن مسجلاً، اعرض شاشة تسجيل الدخول مباشرة
-  if (!user) {
-    return <Login />;
+  // ✅ عرض حالة عدم وجود بيانات
+  if (!userData || !isAuthenticated) {
+    console.log("⏳ انتظار تحميل userData...");
+    return (
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center">
+        <RefreshCw className="w-8 h-8 text-blue-500 animate-spin mb-3" />
+        <p className="text-xs text-slate-400">جاري تحميل بيانات المستخدم...</p>
+        <div className="flex items-center gap-3 mt-4">
+          <button
+            onClick={handleManualRefresh}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold transition-all flex items-center gap-2"
+          >
+            <RefreshCw className="w-4 h-4" />
+            إعادة المحاولة
+          </button>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-xl text-sm font-bold transition-all flex items-center gap-2"
+          >
+            <Home className="w-4 h-4" />
+            تحديث الصفحة
+          </button>
+        </div>
+      </div>
+    );
   }
 
+  console.log("🎯 التوجيه حسب الدور:", role);
+
+  // ✅ التوجيه حسب الدور مع تمرير key مستقر
+  if (role === 'admin' || role === 'admin_assistant') {
+    console.log("✅ توجيه إلى لوحة الأدمن");
+    return <AdminDashboard key={dashboardKey} />;
+  }
+  
+  if (role === 'teacher') {
+    console.log("✅ توجيه إلى لوحة المعلم");
+    return <TeacherDashboard key={dashboardKey} />;
+  }
+  
+  if (role === 'student') {
+    console.log("✅ توجيه إلى لوحة الطالب");
+    return <StudentDashboard key={dashboardKey} />;
+  }
+
+  console.log("⚠️ دور غير معروف، توجيه إلى login");
+  return <Navigate to="/login" replace />;
+};
+
+// ============ ✅ مكون تسجيل الخروج (محسّن) ============
+const LogoutButton = () => {
+  const { logout, userData } = useAuth();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = useCallback(async () => {
+    if (isLoggingOut) return;
+    
+    try {
+      setIsLoggingOut(true);
+      await logout();
+    } catch (error) {
+      console.error("❌ خطأ في تسجيل الخروج:", error);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  }, [logout, isLoggingOut]);
+
+  // ✅ إخفاء زر الخروج إذا لم يكن هناك مستخدم
+  if (!userData) return null;
+
   return (
-    <Router>
-      <div className="relative min-h-screen bg-slate-900">
-        
-        {/* زر تسجيل الخروج العائم */}
-        <button 
-          onClick={handleLogout}
-          className="fixed bottom-4 left-4 z-50 bg-slate-800 hover:bg-rose-950 text-slate-400 hover:text-rose-400 border border-slate-700 hover:border-rose-900 p-2.5 rounded-xl transition-all shadow-lg flex items-center gap-2 text-xs font-semibold"
-        >
-          <LogOut className="w-4 h-4" />
-          <span>تسجيل الخروج</span>
-        </button>
+    <button
+      onClick={handleLogout}
+      disabled={isLoggingOut}
+      className="fixed bottom-4 left-4 z-50 bg-slate-800 hover:bg-rose-950/80 text-slate-400 hover:text-rose-400 border border-slate-700 hover:border-rose-900/50 p-2.5 rounded-xl transition-all shadow-lg flex items-center gap-2 text-xs font-semibold disabled:opacity-50"
+    >
+      {isLoggingOut ? (
+        <RefreshCw className="w-4 h-4 animate-spin" />
+      ) : (
+        <LogOut className="w-4 h-4" />
+      )}
+      <span>{isLoggingOut ? 'جاري الخروج...' : 'تسجيل الخروج'}</span>
+    </button>
+  );
+};
 
-        {/* إدارة التوجيه والمسارات الآمنة بناءً على الصلاحيات */}
-        <Routes>
-          {userData?.role === 'teacher' ? (
-            <>
-              <Route path="/teacher" element={<TeacherDashboard />} />
-              {/* توجيه المعلم تلقائياً إلى لوحته عند دخول صفحة رئيسية أخرى */}
-              <Route path="*" element={<Navigate to="/teacher" replace />} />
-            </>
-          ) : (
-            <>
-              {/* توجيه الطالب إلى لوحته الكاملة الحية والأرشيفية */}
-              <Route path="/dashboard" element={<StudentDashboard userProfile={userData} />} />
-              {/* توجيه الطالب تلقائياً بناءً على بيانات صفه في Firestore */}
-              <Route 
-                path="*" 
-                element={
-                  userData?.classId ? (
-                    <Navigate to="/dashboard" replace />
-                  ) : (
-                    <div className="min-h-screen flex items-center justify-center text-xs text-slate-400">
-                      الحساب غير مرتبط بصف دراسي حالياً. يرجى مراجعة المعلم.
-                    </div>
-                  )
-                } 
-              />
-            </>
-          )}
-        </Routes>
+// ============ ✅ مكون التوجيه المحمي (محسّن) ============
+const ProtectedRouteWrapper = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
 
+  // ✅ عرض حالة التحميل
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center">
+        <RefreshCw className="w-8 h-8 text-blue-500 animate-spin mb-3" />
+        <p className="text-xs text-slate-400">جاري التحقق من بيانات الدخول...</p>
       </div>
-    </Router>
+    );
+  }
+
+  // ✅ إذا لم يكن المستخدم مسجلاً دخول، إعادة التوجيه إلى صفحة تسجيل الدخول
+  if (!isAuthenticated) {
+    console.log("🔒 مستخدم غير مصرح له، إعادة توجيه إلى login");
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
+
+// ============ التطبيق الرئيسي ============
+export default function App() {
+  return (
+   <AuthProvider>
+  <Router>
+    <div className="min-h-screen bg-slate-900">
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={
+          <ProtectedRouteWrapper>
+            <div className="relative">
+              <DashboardRouter />
+              <LogoutButton />
+            </div>
+          </ProtectedRouteWrapper>
+        } />
+        <Route path="*" element={
+          <ProtectedRouteWrapper>
+            <div className="relative">
+              <DashboardRouter />
+              <LogoutButton />
+            </div>
+          </ProtectedRouteWrapper>
+        } />
+      </Routes>
+    </div>
+  </Router>
+</AuthProvider>
   );
 }

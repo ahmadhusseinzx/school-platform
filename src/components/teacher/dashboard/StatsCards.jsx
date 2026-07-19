@@ -1,11 +1,12 @@
+// src/components/teacher/dashboard/StatsCards.jsx
 import React from 'react';
-import { BarChart2, Clock, Edit3, Percent, ArrowUp, ArrowDown, CheckCircle } from 'lucide-react';
+import { Clock, Edit3, Percent, ArrowUp, ArrowDown, CheckCircle } from 'lucide-react';
 
 export default function StatsCards({ darkMode, statsData, setActiveMainTab }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {/* بطاقة الحصص المتبقية */}
-      <div className={`p-5 rounded-2xl border flex flex-col justify-between ${darkMode ? 'bg-[#1e293b] border-slate-700' : 'bg-white border-slate-200 shadow-sm'}`}>
+      <div className={`p-5 rounded-2xl border ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200 shadow-sm'}`}>
         <div className="flex items-center justify-between mb-3">
           <div className="bg-blue-500/10 p-2.5 rounded-xl text-blue-500">
             <Clock className="w-5 h-5" />
@@ -28,7 +29,7 @@ export default function StatsCards({ darkMode, statsData, setActiveMainTab }) {
       </div>
 
       {/* بطاقة الواجبات */}
-      <div className={`p-5 rounded-2xl border flex flex-col justify-between ${darkMode ? 'bg-[#1e293b] border-slate-700' : 'bg-white border-slate-200 shadow-sm'}`}>
+      <div className={`p-5 rounded-2xl border ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200 shadow-sm'}`}>
         <div className="flex items-center justify-between mb-3">
           <div className="bg-amber-500/10 p-2.5 rounded-xl text-amber-500">
             <Edit3 className="w-5 h-5" />
@@ -48,7 +49,7 @@ export default function StatsCards({ darkMode, statsData, setActiveMainTab }) {
       </div>
 
       {/* بطاقة الحضور */}
-      <div className={`p-5 rounded-2xl border flex flex-col justify-between ${darkMode ? 'bg-[#1e293b] border-slate-700' : 'bg-white border-slate-200 shadow-sm'}`}>
+      <div className={`p-5 rounded-2xl border ${darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200 shadow-sm'}`}>
         <div className="flex items-center justify-between mb-3">
           <div className="bg-emerald-500/10 p-2.5 rounded-xl text-emerald-500">
             <Percent className="w-5 h-5" />

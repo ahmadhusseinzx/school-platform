@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل حالات العام الدراسي والفصول</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 40px;
+            direction: rtl;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid #334155;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 900;
+            color: #60a5fa;
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 3px solid #60a5fa;
+            padding-bottom: 15px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #facc15;
+            margin: 25px 0 15px 0;
+            padding-right: 10px;
+            border-right: 4px solid #facc15;
+        }
+        h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #60a5fa;
+            margin: 20px 0 10px 0;
+        }
+        .info-box {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid #334155;
+        }
+        .info-box.success {
+            border-color: #22c55e;
+        }
+        .info-box.warning {
+            border-color: #facc15;
+        }
+        .info-box.danger {
+            border-color: #ef4444;
+        }
+        .info-box.info {
+            border-color: #60a5fa;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        th {
+            background: #334155;
+            color: #f1f5f9;
+            padding: 12px 10px;
+            text-align: center;
+            border: 1px solid #475569;
+            font-weight: 700;
+        }
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #475569;
+        }
+        tr:nth-child(even) {
+            background: #0f172a;
+        }
+        tr:hover {
+            background: #273548;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .badge.active {
+            background: #22c55e20;
+            color: #22c55e;
+            border: 1px solid #22c55e40;
+        }
+        .badge.closed {
+            background: #ef444420;
+            color: #ef4444;
+            border: 1px solid #ef444440;
+        }
+        .badge.pending {
+            background: #facc1520;
+            color: #facc15;
+            border: 1px solid #facc1540;
+        }
+        .badge.open {
+            background: #60a5fa20;
+            color: #60a5fa;
+            border: 1px solid #60a5fa40;
+        }
+        .flow-chart {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #334155;
+            margin: 15px 0;
+            font-size: 14px;
+            line-height: 2;
+        }
+        .flow-chart .arrow {
+            color: #60a5fa;
+            font-size: 20px;
+        }
+        .flow-chart .step {
+            display: inline-block;
+            background: #1e293b;
+            padding: 8px 20px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            margin: 5px;
+        }
+        .flow-chart .step.active {
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+        .flow-chart .step.closed {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        .code-block {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+            overflow-x: auto;
+            margin: 10px 0;
+            direction: ltr;
+            text-align: left;
+        }
+        .code-block .key {
+            color: #60a5fa;
+        }
+        .code-block .string {
+            color: #22c55e;
+        }
+        .code-block .boolean {
+            color: #facc15;
+        }
+        .note {
+            background: #facc1520;
+            border-radius: 10px;
+            padding: 15px;
+            border-right: 4px solid #facc15;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #334155;
+        }
+        @media print {
+            body {
+                background: white;
+                color: #1e293b;
+                padding: 20px;
+            }
+            .container {
+                background: white;
+                border: 1px solid #ddd;
+                box-shadow: none;
+            }
+            h1 { color: #1a237e; }
+            h2 { color: #e65100; }
+            h3 { color: #1565c0; }
+            .info-box { background: #f8f9fa; border-color: #ddd; }
+            .flow-chart { background: #f8f9fa; border-color: #ddd; }
+            .flow-chart .step { background: white; }
+            .code-block { background: #f8f9fa; color: #1e293b; }
+            .badge.active { background: #e8f5e9; color: #2e7d32; }
+            .badge.closed { background: #ffebee; color: #c62828; }
+            .badge.pending { background: #fff8e1; color: #f57f17; }
+            .badge.open { background: #e3f2fd; color: #0d47a1; }
+            .note { background: #fff8e1; }
+            th { background: #1a237e; color: white; }
+            td { border-color: #ddd; }
+            tr:nth-child(even) { background: #f5f5f5; }
+            tr:hover { background: #e3f2fd; }
+            .footer { border-top-color: #ddd; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>📚 دليل حالات العام الدراسي والفصول</h1>
+    <p class="subtitle">مرجع سريع لإدارة العام الدراسي والفصول في نظام المنصة التعليمية</p>
+
+    <!-- ============================================================ -->
+    <!-- 1. حالات العام الدراسي -->
+    <!-- ============================================================ -->
+
+    <h2>1️⃣ حالات العام الدراسي (Academic Year)</h2>
+
+    <div class="info-box info">
+        <p><strong>📌 الحقل:</strong> <code>academicYear.status</code></p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>الحالة</th>
+                <th>المعنى</th>
+                <th>ما يظهر في الواجهة</th>
+                <th>الإجراءات المسموحة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="badge active">active</span></td>
+                <td>العام نشط وجاري العمل عليه</td>
+                <td>✅ نشط</td>
+                <td>يمكن إدارة الفصول والعلامات</td>
+            </tr>
+            <tr>
+                <td><span class="badge closed">closed</span></td>
+                <td>العام مغلق (منتهي)</td>
+                <td>🔒 مغلق</td>
+                <td>لا يمكن التعديل، يظهر زر "بدء العام الدراسي"</td>
+            </tr>
+            <tr>
+                <td><span class="badge pending">غير موجود</span></td>
+                <td>لم يبدأ بعد</td>
+                <td>⏳ لم يبدأ</td>
+                <td>يظهر زر "بدء العام الدراسي"</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <!-- 2. حالات الفصول الدراسية -->
+    <!-- ============================================================ -->
+
+    <h2>2️⃣ حالات الفصول الدراسية (Semesters)</h2>
+
+    <div class="info-box info">
+        <p><strong>📌 الحقول:</strong> <code>semesters.semester1.status</code> و <code>semesters.semester2.status</code></p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>الحالة</th>
+                <th>المعنى</th>
+                <th>ما يظهر في الواجهة</th>
+                <th>الإجراءات المسموحة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="badge active">active</span></td>
+                <td>الفصل مفتوح (يمكن التعديل)</td>
+                <td>✅ مفتوح</td>
+                <td>يمكن إدخال وتعديل العلامات</td>
+            </tr>
+            <tr>
+                <td><span class="badge closed">closed</span></td>
+                <td>الفصل مغلق (لا يمكن التعديل)</td>
+                <td>🔒 مغلق</td>
+                <td>لا يمكن تعديل العلامات</td>
+            </tr>
+            <tr>
+                <td><span class="badge pending">pending</span></td>
+                <td>في انتظار الفتح (لم يبدأ بعد)</td>
+                <td>⏳ معلق</td>
+                <td>لا يمكن التعديل حتى يتم الفتح</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <!-- 3. تدفق العام الدراسي -->
+    <!-- ============================================================ -->
+
+    <h2>3️⃣ تدفق العام الدراسي</h2>
+
+    <div class="flow-chart">
+        <div class="step active">🚀 بداية العام<br><small>status: active</small></div>
+        <span class="arrow">⬇️</span>
+        <div class="step active">📖 الفصل الأول<br><small>semester1: active</small></div>
+        <span class="arrow">⬇️</span>
+        <div class="step closed">🔒 إغلاق الفصل الأول<br><small>semester1: closed</small></div>
+        <span class="arrow">⬇️</span>
+        <div class="step active">📖 الفصل الثاني<br><small>semester2: active</small></div>
+        <span class="arrow">⬇️</span>
+        <div class="step closed">🔒 إغلاق الفصل الثاني<br><small>semester2: closed</small></div>
+        <span class="arrow">⬇️</span>
+        <div class="step closed">🔒 نهاية العام<br><small>academicYear: closed</small></div>
+        <span class="arrow">⬇️</span>
+        <div class="step active">🔄 عام جديد<br><small>semester1: active<br>semester2: pending</small></div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 4. مثال من Firestore -->
+    <!-- ============================================================ -->
+
+    <h2>4️⃣ مثال من Firestore</h2>
+
+    <h3>🔹 عام نشط (قيد العمل)</h3>
+    <div class="code-block">
+        <span class="key">"academicYear"</span>: {<br>
+        &nbsp;&nbsp;<span class="key">"current"</span>: <span class="string">"2026-2027"</span>,<br>
+        &nbsp;&nbsp;<span class="key">"startDate"</span>: <span class="string">"2026-07-16T..."</span>,<br>
+        &nbsp;&nbsp;<span class="key">"status"</span>: <span class="string">"active"</span>  <span style="color:#22c55e;">✅</span><br>
+        },<br>
+        <span class="key">"semesters"</span>: {<br>
+        &nbsp;&nbsp;<span class="key">"semester1"</span>: { <span class="key">"status"</span>: <span class="string">"active"</span> },  <span style="color:#22c55e;">✅ مفتوح</span><br>
+        &nbsp;&nbsp;<span class="key">"semester2"</span>: { <span class="key">"status"</span>: <span class="string">"pending"</span> }  <span style="color:#facc15;">⏳ معلق</span><br>
+        }
+    </div>
+
+    <h3>🔹 عام مغلق (منتهي)</h3>
+    <div class="code-block">
+        <span class="key">"academicYear"</span>: {<br>
+        &nbsp;&nbsp;<span class="key">"current"</span>: <span class="string">"2026-2027"</span>,<br>
+        &nbsp;&nbsp;<span class="key">"startDate"</span>: <span class="string">"2026-07-16T..."</span>,<br>
+        &nbsp;&nbsp;<span class="key">"status"</span>: <span class="string">"closed"</span>  <span style="color:#ef4444;">🔒</span><br>
+        },<br>
+        <span class="key">"semesters"</span>: {<br>
+        &nbsp;&nbsp;<span class="key">"semester1"</span>: { <span class="key">"status"</span>: <span class="string">"closed"</span> },  <span style="color:#ef4444;">🔒 مغلق</span><br>
+        &nbsp;&nbsp;<span class="key">"semester2"</span>: { <span class="key">"status"</span>: <span class="string">"closed"</span> }  <span style="color:#ef4444;">🔒 مغلق</span><br>
+        }
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 5. كيفية التعديل في Firestore -->
+    <!-- ============================================================ -->
+
+    <h2>5️⃣ كيفية التعديل في Firestore</h2>
+
+    <div class="info-box">
+        <h3>📍 الخطوات:</h3>
+        <ol style="padding-right: 20px; line-height: 2;">
+            <li>اذهب إلى <strong>Firebase Console</strong> → <strong>Firestore Database</strong></li>
+            <li>اختر مجموعة <strong>schoolSettings</strong></li>
+            <li>افتح المستند (يوجد عادةً مستند واحد)</li>
+            <li>عدّل القيم حسب الجدول أدناه</li>
+            <li>اضغط <strong>Save</strong> أو <strong>Update</strong></li>
+            <li>حدّث الصفحة في التطبيق (Ctrl + F5)</li>
+        </ol>
+    </div>
+
+    <h3>📋 جدول التعديلات السريعة</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ما تريد فعله</th>
+                <th>التعديل المطلوب</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>✅ إلغاء إغلاق العام</td>
+                <td><code>academicYear.status = "active"</code></td>
+            </tr>
+            <tr>
+                <td>✅ فتح الفصل الأول</td>
+                <td><code>semesters.semester1.status = "active"</code></td>
+            </tr>
+            <tr>
+                <td>✅ فتح الفصل الثاني</td>
+                <td><code>semesters.semester2.status = "active"</code></td>
+            </tr>
+            <tr>
+                <td>🔒 إغلاق الفصل الأول</td>
+                <td><code>semesters.semester1.status = "closed"</code></td>
+            </tr>
+            <tr>
+                <td>🔒 إغلاق الفصل الثاني</td>
+                <td><code>semesters.semester2.status = "closed"</code></td>
+            </tr>
+            <tr>
+                <td>🔄 بدء عام جديد</td>
+                <td><code>academicYear.status = "active"</code><br><code>semester1.status = "active"</code><br><code>semester2.status = "pending"</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <!-- 6. تنبيهات مهمة -->
+    <!-- ============================================================ -->
+
+    <h2>6️⃣ ⚠️ تنبيهات مهمة</h2>
+
+    <div class="note">
+        <strong>🔴 القيمة الصحيحة:</strong> يجب استخدام <code>"active"</code> وليس <code>"open"</code> أو <code>"true"</code>
+    </div>
+
+    <div class="note">
+        <strong>🔄 التحديث في الواجهة:</strong> بعد التعديل في Firestore، قد تحتاج إلى <strong>تحديث الصفحة</strong> (Ctrl + F5) لظهور التغييرات
+    </div>
+
+    <div class="note">
+        <strong>📊 تأثير الحالة على العلامات:</strong>
+        <ul style="padding-right: 20px; line-height: 2;">
+            <li>عندما يكون الفصل <span class="badge active">active</span> → يمكن تعديل العلامات ✅</li>
+            <li>عندما يكون الفصل <span class="badge closed">closed</span> → لا يمكن تعديل العلامات ❌</li>
+        </ul>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 7. ملخص سريع -->
+    <!-- ============================================================ -->
+
+    <h2>7️⃣ 📋 ملخص سريع</h2>
+
+    <div class="info-box success">
+        <table>
+            <thead>
+                <tr>
+                    <th>العنصر</th>
+                    <th>مفتوح/نشط</th>
+                    <th>مغلق/منتهي</th>
+                    <th>معلق/لم يبدأ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>العام الدراسي</strong></td>
+                    <td><span class="badge active">active</span></td>
+                    <td><span class="badge closed">closed</span></td>
+                    <td><span class="badge pending">(غير موجود)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>الفصل الأول</strong></td>
+                    <td><span class="badge active">active</span></td>
+                    <td><span class="badge closed">closed</span></td>
+                    <td><span class="badge pending">pending</span></td>
+                </tr>
+                <tr>
+                    <td><strong>الفصل الثاني</strong></td>
+                    <td><span class="badge active">active</span></td>
+                    <td><span class="badge closed">closed</span></td>
+                    <td><span class="badge pending">pending</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 8. الأزرار في الواجهة -->
+    <!-- ============================================================ -->
+
+    <h2>8️⃣ 🎯 الأزرار في الواجهة</h2>
+
+    <div class="info-box info">
+        <table>
+            <thead>
+                <tr>
+                    <th>الزر</th>
+                    <th>شروط الظهور</th>
+                    <th>الوظيفة</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>▶️ بدء العام الدراسي</td>
+                    <td><code>academicYear.status !== "active"</code></td>
+                    <td>بدء عام دراسي جديد</td>
+                </tr>
+                <tr>
+                    <td>🔒 إغلاق الفصل الأول</td>
+                    <td><code>selectedSemester === 1 && semester1.status === "active"</code></td>
+                    <td>إغلاق الفصل الأول ومنع التعديل</td>
+                </tr>
+                <tr>
+                    <td>🔒 إغلاق الفصل الثاني</td>
+                    <td><code>selectedSemester === 2 && semester2.status === "active"</code></td>
+                    <td>إغلاق الفصل الثاني ومنع التعديل</td>
+                </tr>
+                <tr>
+                    <td>🔓 فتح الفصل الأول</td>
+                    <td><code>selectedSemester === 1 && semester1.status === "closed"</code></td>
+                    <td>فتح الفصل الأول للسماح بالتعديل</td>
+                </tr>
+                <tr>
+                    <td>🔓 فتح الفصل الثاني</td>
+                    <td><code>selectedSemester === 2 && semester2.status === "closed"</code></td>
+                    <td>فتح الفصل الثاني للسماح بالتعديل</td>
+                </tr>
+                <tr>
+                    <td>🚩 إغلاق العام الدراسي</td>
+                    <td><code>semester1.status === "closed" && semester2.status === "closed"</code></td>
+                    <td>إغلاق العام الدراسي بالكامل</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 9. مثال عملي -->
+    <!-- ============================================================ -->
+
+    <h2>9️⃣ 💡 مثال عملي</h2>
+
+    <div class="info-box" style="border-color: #60a5fa;">
+        <h3>🔹 السيناريو: أغلقت العام الدراسي 2026-2027 بالخطأ</h3>
+        <p style="margin-top: 10px;"><strong>المشكلة:</strong> العام الدراسي مغلق ولا يمكن تعديل العلامات</p>
+        <p><strong>الحل:</strong></p>
+        <ol style="padding-right: 20px; line-height: 2;">
+            <li>اذهب إلى Firestore → <code>schoolSettings</code></li>
+            <li>غيّر <code>academicYear.status</code> من <span class="badge closed">"closed"</span> إلى <span class="badge active">"active"</span></li>
+            <li>إذا كنت تريد فتح الفصلين أيضاً، غيّر:
+                <ul style="padding-right: 20px;">
+                    <li><code>semesters.semester1.status</code> → <span class="badge active">"active"</span></li>
+                    <li><code>semesters.semester2.status</code> → <span class="badge active">"active"</span></li>
+                </ul>
+            </li>
+            <li>احفظ التغييرات وحدّث الصفحة</li>
+            <li>✅ ستعود العلامات قابلة للتعديل</li>
+        </ol>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 10. روابط سريعة -->
+    <!-- ============================================================ -->
+
+    <h2>🔗 روابط سريعة</h2>
+
+    <div class="info-box info">
+        <p>📌 <strong>Firestore Console:</strong> <a href="https://console.firebase.google.com/" style="color: #60a5fa;" target="_blank">https://console.firebase.google.com/</a></p>
+        <p>📌 <strong>المسار في Firestore:</strong> <code>schoolSettings → {documentId}</code></p>
+        <p>📌 <strong>ملف الكود:</strong> <code>src/components/admin/GradesManager/hooks/useSchoolSettings.js</code></p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- Footer -->
+    <!-- ============================================================ -->
+
+    <div class="footer">
+        📚 المنصة التعليمية الذكية | تم الإنشاء: 2026-07-16 | للإستخدام الداخلي
+    </div>
+
+</div>
+
+</body>
+</html>

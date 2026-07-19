@@ -1,25 +1,29 @@
-// 1. استيراد الدوال الأساسية من حزم الـ SDK
-//import { initializeApp } from "firebase/app";
-//import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getDatabase } from "firebase/database";
+// src/services/firebase.js
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-// 2. إعدادات مشروعك الحقيقي (Techno)
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getDatabase } from 'firebase/database';
+import { getStorage } from 'firebase/storage';
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBo-3ZEgzXA12Gpaq28DU8q6bZjjyeI6uY",
-  authDomain: "techno-86767.firebaseapp.com",
-  projectId: "techno-86767",
-  storageBucket: "techno-86767.firebasestorage.app",
-  messagingSenderId: "464385771585",
-  appId: "1:464385771585:web:319b3b415ac21afa341ec0",
-  databaseURL: "https://techno-86767-default-rtdb.firebaseio.com" // رابط الـ Realtime DB الافتراضي لمشروعك
+  apiKey: "AIzaSyAuqPgcnBrVE101HxPSnSh4_KMqqJNVoss",
+  authDomain: "school-624e5.firebaseapp.com",
+  databaseURL: "https://school-624e5-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "school-624e5",
+  storageBucket: "school-624e5.firebasestorage.app",
+  messagingSenderId: "833684484564",
+  appId: "1:833684484564:web:7891d587157e386f746641",
+  measurementId: "G-GGGWK9GC6V"
 };
 
-// 3. تهيئة التطبيق سحابياً
 const app = initializeApp(firebaseConfig);
 
-// 4. التصدير الفعلي (توفير الحزم لصفحة Login والصفحات الأخرى) 👇
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const rtdb = getDatabase(app);
+export const storage = getStorage(app);
+
+console.log("🔥 Firebase initialized successfully!");
+console.log("📁 Project ID:", firebaseConfig.projectId);
+
+export default app;
